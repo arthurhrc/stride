@@ -38,6 +38,19 @@ export default async function SpacePage({ params }: Props) {
           },
         },
       },
+      sprints: { orderBy: { order: "asc" } },
+      objectives: {
+        orderBy: { order: "asc" },
+        include: {
+          owner: { select: { id: true, name: true, avatarColor: true } },
+          keyResults: { orderBy: { order: "asc" } },
+        },
+      },
+      canvasCards: { orderBy: { order: "asc" } },
+      retroCards: {
+        orderBy: { votes: "desc" },
+        include: { author: { select: { id: true, name: true, avatarColor: true } } },
+      },
     },
   });
 

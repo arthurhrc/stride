@@ -10,6 +10,8 @@ const patchSchema = z.object({
   dueDate: z.string().nullable().optional(),
   statusId: z.string().optional(),
   assigneeId: z.string().nullable().optional(),
+  sprintId: z.string().nullable().optional(),
+  storyPoints: z.number().int().min(0).nullable().optional(),
   order: z.number().int().min(0).optional(),
   listId: z.string().optional(),
 });
@@ -63,7 +65,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const parsed = patchSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
 
-  const { statusId, dueDate, ...rest } = parsed.data;
+  const { statusId, dueDate, sprintId, ...rest } = parsed.data;
 
   if (statusId) {
     const status = await prisma.taskStatus.findFirst({
@@ -78,6 +80,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       ...rest,
       ...(statusId && { statusId }),
       ...(dueDate !== undefined && { dueDate: dueDate ? new Date(dueDate) : null }),
+      ...(sprintId !== undefined && { sprintId: sprintId || null }),
     },
     include: {
       status: true,

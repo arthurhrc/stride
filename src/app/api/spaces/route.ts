@@ -14,7 +14,9 @@ const schema = z.object({
   name: z.string().min(1).max(80),
   icon: z.string().optional(),
   color: z.string().optional(),
-  workspaceId: z.string(),
+  methodologyType: z.string().optional(),
+  workspaceId: z.string().optional(),
+  workspaceSlug: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -25,7 +27,15 @@ export async function POST(req: NextRequest) {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
 
-  const { name, icon = "📁", color = "#6366f1", workspaceId } = parsed.data;
+  const { name, icon = "📁", color = "#6366f1", methodologyType = "kanban" } = parsed.data;
+  let workspaceId = parsed.data.workspaceId;
+
+  if (!workspaceId && parsed.data.workspaceSlug) {
+    const ws = await prisma.workspace.findUnique({ where: { slug: parsed.data.workspaceSlug } });
+    workspaceId = ws?.id;
+  }
+
+  if (!workspaceId) return NextResponse.json({ error: "workspaceId ou workspaceSlug obrigatório" }, { status: 400 });
 
   const member = await prisma.workspaceMember.findUnique({
     where: { userId_workspaceId: { userId: session.user.id, workspaceId } },
@@ -33,7 +43,7 @@ export async function POST(req: NextRequest) {
   if (!member) return NextResponse.json({ error: "Sem acesso" }, { status: 403 });
 
   const space = await prisma.$transaction(async (tx) => {
-    const s = await tx.space.create({ data: { name, icon, color, workspaceId } });
+    const s = await tx.space.create({ data: { name, icon, color, methodologyType, workspaceId: workspaceId! } });
     await Promise.all(DEFAULT_STATUSES.map((st) => tx.taskStatus.create({ data: { ...st, spaceId: s.id } })));
     await tx.taskList.create({ data: { name: "Backlog", order: 0, spaceId: s.id } });
     return s;

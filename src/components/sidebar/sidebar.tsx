@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
+import { CreateSpaceDialog } from "@/components/sidebar/create-space-dialog";
 import type { WorkspaceSummary, SpaceSummary } from "@/types";
 
 interface SidebarProps {
@@ -22,6 +23,7 @@ export function Sidebar({ user, workspaces, currentWorkspace, spaces, currentSpa
   const router = useRouter();
   const pathname = usePathname();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [createSpaceOpen, setCreateSpaceOpen] = useState(false);
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -108,12 +110,19 @@ export function Sidebar({ user, workspaces, currentWorkspace, spaces, currentSpa
               <span className="truncate">{space.name}</span>
             </Link>
           ))}
-          <button className="mt-1 flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors">
+          <button
+            onClick={() => setCreateSpaceOpen(true)}
+            className="mt-1 flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+          >
             <Plus className="h-4 w-4" />
             Novo espaço
           </button>
         </div>
       </nav>
+
+      {createSpaceOpen && (
+        <CreateSpaceDialog workspaceSlug={currentWorkspace.slug} onClose={() => setCreateSpaceOpen(false)} />
+      )}
 
       <div className="border-t border-gray-100 p-2">
         <div className="flex items-center gap-2 rounded-lg px-2 py-1.5">

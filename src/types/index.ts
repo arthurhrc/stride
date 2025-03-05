@@ -2,6 +2,8 @@ export type Priority = string;
 
 export type TaskStatusType = "not_started" | "active" | "done" | "cancelled";
 
+export type MethodologyType = "kanban" | "scrum" | "okr" | "canvas" | "retro";
+
 export interface UserSummary {
   id: string;
   name: string;
@@ -20,6 +22,7 @@ export interface SpaceSummary {
   name: string;
   color: string;
   icon: string;
+  methodologyType: string;
   workspaceId: string;
 }
 
@@ -45,6 +48,8 @@ export interface TaskData {
   priority: Priority;
   dueDate?: string | null;
   order: number;
+  storyPoints?: number | null;
+  sprintId?: string | null;
   listId: string;
   statusId: string;
   assigneeId?: string | null;
@@ -67,7 +72,70 @@ export interface CommentData {
   user: UserSummary;
 }
 
+export interface SprintData {
+  id: string;
+  name: string;
+  goal?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  status: string;
+  order: number;
+  spaceId: string;
+  createdAt: string;
+}
+
+export interface KeyResultData {
+  id: string;
+  title: string;
+  current: number;
+  target: number;
+  unit: string;
+  order: number;
+  objectiveId: string;
+  createdAt: string;
+}
+
+export interface ObjectiveData {
+  id: string;
+  title: string;
+  description?: string | null;
+  status: string;
+  ownerId?: string | null;
+  dueDate?: string | null;
+  order: number;
+  spaceId: string;
+  createdAt: string;
+  owner?: UserSummary | null;
+  keyResults: KeyResultData[];
+}
+
+export interface CanvasCardData {
+  id: string;
+  content: string;
+  block: string;
+  color: string;
+  order: number;
+  spaceId: string;
+  createdAt: string;
+}
+
+export interface RetroCardData {
+  id: string;
+  content: string;
+  column: string;
+  votes: number;
+  order: number;
+  authorId: string;
+  spaceId: string;
+  createdAt: string;
+  author: UserSummary;
+}
+
 export interface SpaceWithData extends SpaceSummary {
   statuses: TaskStatusData[];
   lists: (TaskListData & { tasks: TaskData[] })[];
+  sprints?: SprintData[];
+  objectives?: (ObjectiveData)[];
+  canvasCards?: CanvasCardData[];
+  retroCards?: RetroCardData[];
 }
