@@ -57,19 +57,19 @@ export function CreateTaskDialog({ open, onOpenChange, space, currentUser, membe
       <DialogContent title="Nova tarefa">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-gray-700">Título *</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Título *</label>
             <Input placeholder="O que precisa ser feito?" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700">Lista</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Lista</label>
               <Select value={listId} onValueChange={setListId}>
                 {space.lists.map((l) => <SelectItem key={l.id} value={l.id}>{l.name}</SelectItem>)}
               </Select>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700">Status</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Status</label>
               <Select value={statusId} onValueChange={setStatusId}>
                 {space.statuses.map((s) => (
                   <SelectItem key={s.id} value={s.id}>
@@ -85,13 +85,13 @@ export function CreateTaskDialog({ open, onOpenChange, space, currentUser, membe
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700">Prioridade</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Prioridade</label>
               <Select value={priority} onValueChange={setPriority}>
                 {PRIORITIES.map((p) => <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>)}
               </Select>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700">Responsável</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Responsável</label>
               <Select value={assigneeId} onValueChange={setAssigneeId} placeholder="Ninguém">
                 {members.map((m) => <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>)}
               </Select>
@@ -99,7 +99,7 @@ export function CreateTaskDialog({ open, onOpenChange, space, currentUser, membe
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-gray-700">Prazo</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Prazo</label>
             <Input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
           </div>
 

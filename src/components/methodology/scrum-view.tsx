@@ -41,7 +41,7 @@ function BacklogRow({
   return (
     <div
       onClick={() => onClick(task)}
-      className="group flex items-center gap-3 rounded-lg border border-gray-100 bg-white px-4 py-2.5 hover:border-violet-200 hover:shadow-sm transition-all cursor-pointer"
+      className="group flex items-center gap-3 rounded-lg border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2.5 hover:border-violet-200 dark:hover:border-violet-700 hover:shadow-sm transition-all cursor-pointer"
     >
       <span
         className="shrink-0 flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white"
@@ -51,7 +51,7 @@ function BacklogRow({
         {points}
       </span>
 
-      <span className="flex-1 text-sm text-gray-800 truncate">{task.title}</span>
+      <span className="flex-1 text-sm text-gray-800 dark:text-gray-100 truncate">{task.title}</span>
 
       {task.assignee && (
         <Avatar name={task.assignee.name} color={task.assignee.avatarColor} size="sm" />
@@ -61,7 +61,7 @@ function BacklogRow({
         value={task.sprintId || ""}
         onClick={(e) => e.stopPropagation()}
         onChange={(e) => onAssign(task.id, e.target.value || null)}
-        className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs outline-none focus:border-violet-500 transition-colors"
+        className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-2 py-1 text-xs outline-none focus:border-violet-500 transition-colors"
       >
         <option value="">Backlog</option>
         {sprints.filter((s) => s.status !== "completed").map((s) => (
@@ -173,13 +173,13 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <div className="flex items-center gap-4 border-b border-gray-100 px-6 py-3">
+      <div className="flex items-center gap-4 border-b border-gray-100 dark:border-gray-800 px-6 py-3">
         {activeSprint ? (
           <div className="flex items-center gap-2">
             <Zap className="h-4 w-4 text-emerald-500" />
-            <span className="font-semibold text-gray-900">{activeSprint.name}</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">{activeSprint.name}</span>
             <SprintBadge status={activeSprint.status} />
-            {activeSprint.goal && <span className="text-sm text-gray-500">— {activeSprint.goal}</span>}
+            {activeSprint.goal && <span className="text-sm text-gray-500 dark:text-gray-400">— {activeSprint.goal}</span>}
           </div>
         ) : (
           <span className="text-sm text-gray-400">Nenhum sprint ativo</span>
@@ -187,24 +187,24 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
 
         <div className="ml-auto flex items-center gap-2">
           {activeSprint && totalPoints > 0 && (
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <div className="h-2 w-24 rounded-full bg-gray-100 overflow-hidden">
+            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="h-2 w-24 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
                 <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${Math.round((donePoints / totalPoints) * 100)}%` }} />
               </div>
               <span className="text-xs">{donePoints}/{totalPoints} pts</span>
             </div>
           )}
 
-          <div className="flex items-center gap-1 rounded-lg border border-gray-200 p-0.5">
+          <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-gray-700 p-0.5">
             <button
               onClick={() => setBoardView("board")}
-              className={cn("flex items-center gap-1.5 rounded-md px-2.5 py-1 text-sm transition-colors", boardView === "board" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-gray-700")}
+              className={cn("flex items-center gap-1.5 rounded-md px-2.5 py-1 text-sm transition-colors", boardView === "board" ? "bg-violet-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")}
             >
               <LayoutGrid className="h-3.5 w-3.5" /> Board
             </button>
             <button
               onClick={() => setBoardView("backlog")}
-              className={cn("flex items-center gap-1.5 rounded-md px-2.5 py-1 text-sm transition-colors", boardView === "backlog" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-gray-700")}
+              className={cn("flex items-center gap-1.5 rounded-md px-2.5 py-1 text-sm transition-colors", boardView === "backlog" ? "bg-violet-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")}
             >
               <List className="h-3.5 w-3.5" /> Backlog
             </button>
@@ -233,8 +233,8 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
           ) : (
             <div className="flex flex-col items-center justify-center h-full gap-4">
               <Zap className="h-12 w-12 text-gray-200" />
-              <h3 className="text-lg font-semibold text-gray-400">Nenhum sprint ativo</h3>
-              <p className="text-sm text-gray-400">Crie e inicie um sprint para começar a trabalhar.</p>
+              <h3 className="text-lg font-semibold text-gray-400 dark:text-gray-500">Nenhum sprint ativo</h3>
+              <p className="text-sm text-gray-400 dark:text-gray-500">Crie e inicie um sprint para começar a trabalhar.</p>
             </div>
           )}
         </div>
@@ -243,7 +243,7 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
           {/* Backlog */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-gray-700">Backlog <span className="text-gray-400 font-normal text-sm">({backlogTasks.length})</span></h2>
+              <h2 className="font-semibold text-gray-700 dark:text-gray-200">Backlog <span className="text-gray-400 dark:text-gray-500 font-normal text-sm">({backlogTasks.length})</span></h2>
               <Button size="sm" variant="ghost" onClick={() => setCreateTaskOpen(true)} className="gap-1">
                 <Plus className="h-3.5 w-3.5" /> Adicionar
               </Button>
@@ -253,7 +253,7 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
                 <BacklogRow key={task.id} task={task} sprints={sprints} onAssign={assignToSprint} onClick={setSelectedTask} />
               ))}
               {backlogTasks.length === 0 && (
-                <p className="text-sm text-gray-400 py-4 text-center">Backlog vazio 🎉</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 py-4 text-center">Backlog vazio 🎉</p>
               )}
             </div>
           </div>
@@ -261,27 +261,27 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
           {/* Sprints */}
           <div className="w-72 shrink-0">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-gray-700">Sprints</h2>
+              <h2 className="font-semibold text-gray-700 dark:text-gray-200">Sprints</h2>
               <button onClick={() => setCreateSprintOpen(true)} className="text-gray-400 hover:text-violet-600 transition-colors">
                 <Plus className="h-4 w-4" />
               </button>
             </div>
 
             {createSprintOpen && (
-              <div className="mb-3 rounded-xl border border-violet-200 bg-violet-50 p-3 flex flex-col gap-2">
+              <div className="mb-3 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-3 flex flex-col gap-2">
                 <input
                   value={sprintName}
                   onChange={(e) => setSprintName(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && createSprint()}
                   placeholder="Nome do sprint..."
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm outline-none focus:border-violet-500"
+                  className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-1.5 text-sm outline-none focus:border-violet-500 placeholder:text-gray-400"
                   autoFocus
                 />
                 <input
                   value={sprintGoal}
                   onChange={(e) => setSprintGoal(e.target.value)}
                   placeholder="Meta (opcional)..."
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm outline-none focus:border-violet-500"
+                  className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-1.5 text-sm outline-none focus:border-violet-500 placeholder:text-gray-400"
                 />
                 <div className="flex gap-2">
                   <Button size="sm" onClick={createSprint}>Criar</Button>
@@ -295,18 +295,18 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
                 const tasks = allTasks.filter((t) => t.sprintId === sprint.id);
                 const done = tasks.filter((t) => t.status.type === "done").length;
                 return (
-                  <div key={sprint.id} className="rounded-xl border border-gray-200 bg-white p-3">
+                  <div key={sprint.id} className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-gray-800 truncate">{sprint.name}</span>
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{sprint.name}</span>
                       <SprintBadge status={sprint.status} />
                     </div>
-                    {sprint.goal && <p className="text-xs text-gray-500 mb-2 truncate">{sprint.goal}</p>}
-                    <div className="flex items-center justify-between text-xs text-gray-400 mb-2">
+                    {sprint.goal && <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 truncate">{sprint.goal}</p>}
+                    <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 mb-2">
                       <span>{tasks.length} tarefa{tasks.length !== 1 ? "s" : ""}</span>
                       <span>{done}/{tasks.length} concluídas</span>
                     </div>
                     {tasks.length > 0 && (
-                      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden mb-2">
+                      <div className="h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden mb-2">
                         <div className="h-full rounded-full bg-emerald-500" style={{ width: `${Math.round((done / tasks.length) * 100)}%` }} />
                       </div>
                     )}
@@ -319,7 +319,7 @@ export function ScrumView({ space, members, currentUser, onSpaceUpdate }: Props)
                 );
               })}
               {sprints.length === 0 && !createSprintOpen && (
-                <p className="text-sm text-gray-400 text-center py-4">Nenhum sprint criado</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">Nenhum sprint criado</p>
               )}
             </div>
           </div>

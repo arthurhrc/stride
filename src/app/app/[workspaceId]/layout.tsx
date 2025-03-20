@@ -1,11 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Sidebar } from "@/components/sidebar/sidebar";
+import { WorkspaceShell } from "./workspace-shell";
 
 interface Props {
   children: React.ReactNode;
-  params: Promise<{ workspaceId: string }>;
+  params: Promise<{ workspaceId: string; spaceId?: string }>;
 }
 
 export default async function WorkspaceLayout({ children, params }: Props) {
@@ -28,14 +28,13 @@ export default async function WorkspaceLayout({ children, params }: Props) {
   const user = { id: session.user.id, name: session.user.name, email: session.user.email, avatarColor: session.user.avatarColor };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
-      <Sidebar
-        user={user}
-        workspaces={allWorkspaces}
-        currentWorkspace={workspace}
-        spaces={workspace.spaces}
-      />
-      <main className="flex flex-1 flex-col overflow-hidden">{children}</main>
-    </div>
+    <WorkspaceShell
+      user={user}
+      workspaces={allWorkspaces}
+      currentWorkspace={workspace}
+      spaces={workspace.spaces}
+    >
+      {children}
+    </WorkspaceShell>
   );
 }

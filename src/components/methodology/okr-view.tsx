@@ -28,7 +28,7 @@ function calcProgress(keyResults: KeyResultData[]): number {
 
 function ProgressBar({ value, color }: { value: number; color?: string }) {
   return (
-    <div className="h-2 w-full rounded-full bg-gray-100 overflow-hidden">
+    <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
       <div
         className="h-full rounded-full transition-all duration-300"
         style={{ width: `${value}%`, backgroundColor: color || "#6366f1" }}
@@ -71,16 +71,16 @@ function KeyResultRow({
   }
 
   return (
-    <div className="group flex items-center gap-3 py-2 pl-8 pr-3 rounded-lg hover:bg-gray-50">
+    <div className="group flex items-center gap-3 py-2 pl-8 pr-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/60">
       <div className="h-1.5 w-1.5 rounded-full bg-gray-300 shrink-0" />
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-700 truncate">{kr.title}</p>
+        <p className="text-sm text-gray-700 dark:text-gray-200 truncate">{kr.title}</p>
         <div className="mt-1 flex items-center gap-2">
           <ProgressBar value={progress} color={progress >= 80 ? "#22c55e" : progress >= 50 ? "#f59e0b" : "#ef4444"} />
-          <span className="text-xs text-gray-500 shrink-0 w-16 text-right">
+          <span className="text-xs text-gray-500 dark:text-gray-400 shrink-0 w-16 text-right">
             {editing ? (
               <input
-                className="w-14 rounded border border-gray-300 px-1 py-0.5 text-xs text-right"
+                className="w-14 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1 py-0.5 text-xs text-right"
                 value={current}
                 onChange={(e) => setCurrent(e.target.value)}
                 onBlur={saveCurrent}
@@ -163,7 +163,7 @@ function ObjectiveCard({
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm overflow-hidden">
       <div className="flex items-center gap-3 px-4 py-3">
         <button onClick={() => setExpanded((e) => !e)} className="text-gray-400 hover:text-gray-600 shrink-0">
           {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
@@ -173,7 +173,7 @@ function ObjectiveCard({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-gray-900 truncate">{objective.title}</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{objective.title}</h3>
             <button
               onClick={cycleStatus}
               className={cn("shrink-0 rounded-full px-2 py-0.5 text-xs font-medium cursor-pointer", statusCfg.color)}
@@ -183,7 +183,7 @@ function ObjectiveCard({
           </div>
           <div className="mt-1.5 flex items-center gap-2">
             <ProgressBar value={progress} />
-            <span className="text-xs font-medium text-gray-500 shrink-0">{progress}%</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400 shrink-0">{progress}%</span>
           </div>
         </div>
 
@@ -197,7 +197,7 @@ function ObjectiveCard({
       </div>
 
       {expanded && (
-        <div className="border-t border-gray-100 pb-2">
+        <div className="border-t border-gray-100 dark:border-gray-700 pb-2">
           {objective.keyResults.map((kr) => (
             <KeyResultRow key={kr.id} kr={kr} onUpdate={updateKr} onDelete={deleteKr} />
           ))}
@@ -209,20 +209,20 @@ function ObjectiveCard({
                 onChange={(e) => setKrTitle(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addKeyResult()}
                 placeholder="Resultado-chave..."
-                className="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+                className="flex-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 placeholder:text-gray-400"
                 autoFocus
               />
               <input
                 value={krTarget}
                 onChange={(e) => setKrTarget(e.target.value)}
                 placeholder="Meta"
-                className="w-16 rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-right outline-none focus:border-violet-500"
+                className="w-16 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1.5 text-sm text-right outline-none focus:border-violet-500"
               />
               <input
                 value={krUnit}
                 onChange={(e) => setKrUnit(e.target.value)}
                 placeholder="%"
-                className="w-12 rounded-lg border border-gray-200 px-2 py-1.5 text-sm outline-none focus:border-violet-500"
+                className="w-12 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1.5 text-sm outline-none focus:border-violet-500"
               />
               <Button size="sm" onClick={addKeyResult}>Adicionar</Button>
               <Button size="sm" variant="ghost" onClick={() => setAddingKr(false)}>Cancelar</Button>
@@ -272,7 +272,7 @@ export function OkrView({ space, members, currentUser }: Props) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <div className="flex items-center justify-between border-b border-gray-100 px-6 py-3">
+      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 px-6 py-3">
         <div>
           <p className="text-xs text-gray-400 font-medium">
             {objectives.length} objetivo{objectives.length !== 1 ? "s" : ""}
@@ -285,21 +285,21 @@ export function OkrView({ space, members, currentUser }: Props) {
 
       <div className="flex-1 overflow-y-auto p-6">
         {adding && (
-          <div className="mb-4 rounded-xl border border-violet-200 bg-violet-50 p-4 flex flex-col gap-3">
+          <div className="mb-4 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-4 flex flex-col gap-3">
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && createObjective()}
               placeholder="Título do objetivo..."
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+              className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 placeholder:text-gray-400"
               autoFocus
             />
             <div className="flex items-center gap-2">
-              <label className="text-xs text-gray-500 shrink-0">Responsável:</label>
+              <label className="text-xs text-gray-500 dark:text-gray-400 shrink-0">Responsável:</label>
               <select
                 value={ownerId}
                 onChange={(e) => setOwnerId(e.target.value)}
-                className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-sm outline-none focus:border-violet-500"
+                className="flex-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1.5 text-sm outline-none focus:border-violet-500"
               >
                 {members.map((m) => (
                   <option key={m.id} value={m.id}>{m.name}</option>
@@ -314,8 +314,8 @@ export function OkrView({ space, members, currentUser }: Props) {
         {objectives.length === 0 && !adding && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <Target className="h-12 w-12 text-gray-200 mb-3" />
-            <h3 className="text-lg font-semibold text-gray-400">Nenhum objetivo criado</h3>
-            <p className="text-sm text-gray-400 mt-1">Comece criando um objetivo e adicione resultados-chave para medir o progresso.</p>
+            <h3 className="text-lg font-semibold text-gray-400 dark:text-gray-500">Nenhum objetivo criado</h3>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Comece criando um objetivo e adicione resultados-chave para medir o progresso.</p>
             <Button className="mt-4" onClick={() => setAdding(true)}>
               <Plus className="h-4 w-4 mr-1" /> Criar primeiro objetivo
             </Button>

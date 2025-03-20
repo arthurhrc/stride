@@ -2,10 +2,10 @@ import { cn } from "@/lib/utils";
 import type { Priority } from "@/types";
 
 const priorityConfig: Record<Priority, { label: string; className: string }> = {
-  urgent: { label: "Urgente", className: "bg-red-100 text-red-700" },
-  high: { label: "Alta", className: "bg-orange-100 text-orange-700" },
-  normal: { label: "Normal", className: "bg-blue-100 text-blue-700" },
-  low: { label: "Baixa", className: "bg-gray-100 text-gray-600" },
+  urgent: { label: "Urgente", className: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400" },
+  high: { label: "Alta", className: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400" },
+  normal: { label: "Normal", className: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" },
+  low: { label: "Baixa", className: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400" },
 };
 
 export function PriorityBadge({ priority }: { priority: Priority }) {

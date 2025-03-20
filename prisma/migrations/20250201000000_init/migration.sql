@@ -1,3 +1,6 @@
+-- Use stride schema for all tables
+SET search_path TO stride, public;
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,

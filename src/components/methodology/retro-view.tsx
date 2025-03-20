@@ -13,9 +13,9 @@ interface Props {
 }
 
 const COLUMNS = [
-  { key: "start", label: "Começar", emoji: "🚀", color: "bg-emerald-50 border-emerald-200", headerColor: "bg-emerald-500", addColor: "hover:text-emerald-600" },
-  { key: "stop", label: "Parar", emoji: "🛑", color: "bg-red-50 border-red-200", headerColor: "bg-red-500", addColor: "hover:text-red-600" },
-  { key: "continue", label: "Continuar", emoji: "✅", color: "bg-blue-50 border-blue-200", headerColor: "bg-blue-500", addColor: "hover:text-blue-600" },
+  { key: "start", label: "Começar", emoji: "🚀", color: "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800", headerColor: "bg-emerald-500", addColor: "hover:text-emerald-600" },
+  { key: "stop", label: "Parar", emoji: "🛑", color: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800", headerColor: "bg-red-500", addColor: "hover:text-red-600" },
+  { key: "continue", label: "Continuar", emoji: "✅", color: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800", headerColor: "bg-blue-500", addColor: "hover:text-blue-600" },
 ];
 
 interface RetroCardProps {
@@ -28,13 +28,13 @@ interface RetroCardProps {
 
 function RetroCardItem({ card, currentUserId, onVote, onDelete, onExport }: RetroCardProps) {
   return (
-    <div className="group relative rounded-xl border border-white/80 bg-white p-3 shadow-sm hover:shadow-md transition-shadow">
-      <p className="text-sm text-gray-800 leading-relaxed pr-4 whitespace-pre-wrap">{card.content}</p>
+    <div className="group relative rounded-xl border border-white/80 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 shadow-sm hover:shadow-md transition-shadow">
+      <p className="text-sm text-gray-800 dark:text-gray-100 leading-relaxed pr-4 whitespace-pre-wrap">{card.content}</p>
 
       <div className="mt-2 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Avatar name={card.author.name} color={card.author.avatarColor} size="sm" />
-          <span className="text-xs text-gray-400">{card.author.name.split(" ")[0]}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">{card.author.name.split(" ")[0]}</span>
         </div>
 
         <div className="flex items-center gap-1">
@@ -42,7 +42,7 @@ function RetroCardItem({ card, currentUserId, onVote, onDelete, onExport }: Retr
             onClick={() => onVote(card.id)}
             className={cn(
               "flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium transition-colors",
-              card.votes > 0 ? "bg-violet-100 text-violet-700" : "text-gray-400 hover:bg-gray-100"
+              card.votes > 0 ? "bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300" : "text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
             )}
           >
             <ThumbsUp className="h-3 w-3" />
@@ -108,10 +108,10 @@ function RetroColumn({ col, cards, currentUserId, spaceId, onAdd, onVote, onDele
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className={cn("h-2 w-2 rounded-full", col.headerColor)} />
-          <h3 className="font-semibold text-gray-700 text-sm">
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-sm">
             {col.emoji} {col.label}
           </h3>
-          <span className="rounded-full bg-white/70 px-1.5 py-0.5 text-xs text-gray-500">{cards.length}</span>
+          <span className="rounded-full bg-white/70 dark:bg-gray-700/70 px-1.5 py-0.5 text-xs text-gray-500 dark:text-gray-400">{cards.length}</span>
         </div>
         <button
           onClick={() => setAdding(true)}
@@ -134,13 +134,13 @@ function RetroColumn({ col, cards, currentUserId, spaceId, onAdd, onVote, onDele
         ))}
 
         {adding && (
-          <div className="rounded-xl border border-white bg-white p-3 shadow-sm">
+          <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 shadow-sm">
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), addCard())}
               placeholder="Descreva sua observação... (Enter para salvar)"
-              className="w-full resize-none text-sm text-gray-800 outline-none placeholder:text-gray-400"
+              className="w-full resize-none text-sm text-gray-800 dark:text-gray-100 bg-transparent outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600"
               rows={3}
               autoFocus
               onBlur={() => { if (!content.trim()) setAdding(false); }}
@@ -208,8 +208,8 @@ export function RetroView({ space, currentUser }: Props) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <div className="flex items-center gap-4 border-b border-gray-100 px-6 py-2.5">
-        <div className="flex items-center gap-4 text-xs text-gray-500">
+      <div className="flex items-center gap-4 border-b border-gray-100 dark:border-gray-800 px-6 py-2.5">
+        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
           <span>{cards.length} card{cards.length !== 1 ? "s" : ""}</span>
           <span>{totalVotes} voto{totalVotes !== 1 ? "s" : ""}</span>
           {topCard && topCard.votes > 0 && (

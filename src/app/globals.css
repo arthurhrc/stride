@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Class-based dark mode variant for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 }
 
 body {
@@ -26,6 +34,9 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;

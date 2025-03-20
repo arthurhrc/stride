@@ -56,29 +56,29 @@ export function CreateSpaceDialog({ workspaceSlug, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl p-6 flex flex-col gap-4">
-        <h2 className="text-lg font-semibold text-gray-900">Novo espaço</h2>
+      <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 shadow-2xl p-6 flex flex-col gap-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Novo espaço</h2>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500">Nome</label>
+          <label className="text-xs font-medium text-gray-500 dark:text-gray-400">Nome</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
             placeholder="Nome do espaço..."
-            className="rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+            className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 placeholder:text-gray-400"
             autoFocus
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500">Ícone</label>
+          <label className="text-xs font-medium text-gray-500 dark:text-gray-400">Ícone</label>
           <div className="flex flex-wrap gap-1.5">
             {ICONS.map((i) => (
               <button
                 key={i}
                 onClick={() => setIcon(i)}
-                className={cn("h-8 w-8 rounded-lg text-lg transition-all hover:bg-gray-100", icon === i && "ring-2 ring-violet-500 bg-violet-50")}
+                className={cn("h-8 w-8 rounded-lg text-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-800", icon === i && "ring-2 ring-violet-500 bg-violet-50 dark:bg-violet-900/30")}
               >
                 {i}
               </button>
@@ -87,7 +87,7 @@ export function CreateSpaceDialog({ workspaceSlug, onClose }: Props) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500">Cor</label>
+          <label className="text-xs font-medium text-gray-500 dark:text-gray-400">Cor</label>
           <div className="flex gap-1.5">
             {COLORS.map((c) => (
               <button
@@ -101,7 +101,7 @@ export function CreateSpaceDialog({ workspaceSlug, onClose }: Props) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500">Metodologia</label>
+          <label className="text-xs font-medium text-gray-500 dark:text-gray-400">Metodologia</label>
           <div className="flex flex-col gap-1.5">
             {METHODOLOGIES.map((m) => (
               <button
@@ -110,14 +110,14 @@ export function CreateSpaceDialog({ workspaceSlug, onClose }: Props) {
                 className={cn(
                   "flex items-center gap-3 rounded-lg border px-3 py-2 text-left transition-all",
                   methodology === m.type
-                    ? "border-violet-300 bg-violet-50"
-                    : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                    ? "border-violet-300 dark:border-violet-700 bg-violet-50 dark:bg-violet-900/20"
+                    : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                 )}
               >
                 <span className="text-lg">{m.emoji}</span>
                 <div>
-                  <p className={cn("text-sm font-medium", methodology === m.type ? "text-violet-700" : "text-gray-700")}>{m.label}</p>
-                  <p className="text-xs text-gray-400">{m.desc}</p>
+                  <p className={cn("text-sm font-medium", methodology === m.type ? "text-violet-700 dark:text-violet-300" : "text-gray-700 dark:text-gray-200")}>{m.label}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{m.desc}</p>
                 </div>
               </button>
             ))}

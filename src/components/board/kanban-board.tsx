@@ -41,8 +41,8 @@ function KanbanColumn({
     <div className="flex w-64 shrink-0 flex-col">
       <div className="mb-3 flex items-center gap-2">
         <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: status.color }} />
-        <span className="text-sm font-semibold text-gray-700">{status.name}</span>
-        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-gray-500">
+        <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{status.name}</span>
+        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-medium text-gray-500 dark:text-gray-400">
           {tasks.length}
         </span>
       </div>
@@ -55,7 +55,7 @@ function KanbanColumn({
         </div>
       </SortableContext>
 
-      <button className="mt-2 flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
+      <button className="mt-2 flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
         <Plus className="h-3.5 w-3.5" /> Adicionar tarefa
       </button>
     </div>
@@ -103,7 +103,7 @@ export function KanbanBoard({ space, tasks, onTaskClick, onTaskUpdate }: KanbanB
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="flex h-full gap-5 overflow-x-auto p-6">
+      <div className="flex h-full gap-5 overflow-x-auto p-4 sm:p-6">
         {space.statuses.map((status) => (
           <KanbanColumn
             key={status.id}

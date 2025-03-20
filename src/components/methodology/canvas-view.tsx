@@ -123,14 +123,14 @@ function CanvasBlock({ block, cards, spaceId, onAdd, onUpdate, onDelete }: Canva
 
   return (
     <div
-      className="flex flex-col border border-gray-200 bg-white overflow-hidden"
+      className="flex flex-col border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
       style={{
         gridColumn: block.col,
         gridRow: block.row,
       }}
     >
-      <div className="flex items-center justify-between border-b border-gray-100 px-2 py-1.5 bg-gray-50">
-        <span className="text-xs font-semibold text-gray-600 flex items-center gap-1">
+      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 px-2 py-1.5 bg-gray-50 dark:bg-gray-700/50">
+        <span className="text-xs font-semibold text-gray-600 dark:text-gray-300 flex items-center gap-1">
           <span>{block.emoji}</span> {block.label}
         </span>
         <button
@@ -182,10 +182,10 @@ export function CanvasView({ space }: Props) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <div className="flex items-center gap-2 border-b border-gray-100 px-6 py-2">
-        <span className="text-xs text-gray-400">Business Model Canvas — clique em</span>
-        <Plus className="h-3 w-3 text-gray-400" />
-        <span className="text-xs text-gray-400">em qualquer bloco para adicionar um cartão</span>
+      <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 px-6 py-2">
+        <span className="text-xs text-gray-400 dark:text-gray-500">Business Model Canvas — clique em</span>
+        <Plus className="h-3 w-3 text-gray-400 dark:text-gray-500" />
+        <span className="text-xs text-gray-400 dark:text-gray-500">em qualquer bloco para adicionar um cartão</span>
       </div>
 
       <div
