@@ -1,10 +1,13 @@
 import { PrismaClient } from "../src/generated/prisma/client";
 import bcrypt from "bcryptjs";
-
+import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import dotenv from "dotenv";
 dotenv.config();
-const prisma = new PrismaClient({ adapter: new PrismaPg(process.env.DATABASE_URL!) });
+
+const pool = new Pool({ connectionString: process.env.DIRECT_URL || process.env.DATABASE_URL! });
+pool.on("connect", (client) => { client.query("SET search_path TO stride, public").catch(() => {}); });
+const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
 const STATUSES = [
   { name: "A fazer", color: "#94a3b8", order: 0, type: "not_started" },
