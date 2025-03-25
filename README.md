@@ -4,7 +4,7 @@
 
 Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas metodologias ágeis, Kanban drag & drop, múltiplas vistas e colaboração em tempo real.
 
-**Demo ao vivo:** [stride-orpin-ten.vercel.app](https://stride-orpin-ten.vercel.app)
+**Demo ao vivo:** [stride-agile.vercel.app](https://stride-agile.vercel.app)
 
 ## Metodologias suportadas
 
@@ -65,7 +65,7 @@ Acesse: <http://localhost:3000>
 
 | Usuário | E-mail | Senha |
 |---|---|---|
-| Arthur Carvalho | arthur@demo.com | demo123 |
+| Arthur Carvalho | `arthur@demo.com` | demo123 |
 
 ---
 
