@@ -17,6 +17,13 @@ export async function PATCH(req: NextRequest, { params }: Props) {
   });
   if (!objective || !objective.space.workspace.members.length) return NextResponse.json({ error: "Não encontrado" }, { status: 404 });
 
+  if (body.ownerId && body.ownerId !== objective.ownerId) {
+    const isMember = await prisma.workspaceMember.findUnique({
+      where: { userId_workspaceId: { userId: body.ownerId, workspaceId: objective.space.workspace.id } },
+    });
+    if (!isMember) return NextResponse.json({ error: "Usuário inválido" }, { status: 400 });
+  }
+
   const updated = await prisma.objective.update({
     where: { id },
     data: {

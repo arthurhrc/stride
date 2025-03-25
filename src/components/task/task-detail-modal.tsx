@@ -35,9 +35,12 @@ export function TaskDetailModal({ task, space, members, currentUser, onClose, on
   const [editingTitle, setEditingTitle] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/tasks/${task.id}`)
+    const ac = new AbortController();
+    fetch(`/api/tasks/${task.id}`, { signal: ac.signal })
       .then((r) => r.json())
-      .then((data) => { if (data.comments) setComments(data.comments); });
+      .then((data) => { if (data.comments) setComments(data.comments); })
+      .catch(() => {});
+    return () => ac.abort();
   }, [task.id]);
 
   async function updateField(data: Partial<TaskData>) {
@@ -63,16 +66,19 @@ export function TaskDetailModal({ task, space, members, currentUser, onClose, on
     e.preventDefault();
     if (!comment.trim()) return;
     setSubmitting(true);
-    const res = await fetch(`/api/tasks/${task.id}/comments`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: comment.trim() }),
-    });
-    setSubmitting(false);
-    if (res.ok) {
-      const c = await res.json();
-      setComments((prev) => [...prev, c]);
-      setComment("");
+    try {
+      const res = await fetch(`/api/tasks/${task.id}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: comment.trim() }),
+      });
+      if (res.ok) {
+        const c = await res.json();
+        setComments((prev) => [...prev, c]);
+        setComment("");
+      }
+    } finally {
+      setSubmitting(false);
     }
   }
 

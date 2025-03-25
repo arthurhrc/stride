@@ -21,7 +21,7 @@ export async function PATCH(req: NextRequest, { params }: Props) {
     where: { id },
     data: {
       content: body.content ?? card.content,
-      votes: body.vote ? card.votes + 1 : (body.votes !== undefined ? body.votes : card.votes),
+      votes: body.vote ? card.votes + 1 : card.votes,
     },
     include: { author: { select: { id: true, name: true, avatarColor: true } } },
   });

@@ -94,11 +94,16 @@ export function KanbanBoard({ space, tasks, onTaskClick, onTaskUpdate }: KanbanB
     const updated = { ...task, statusId: targetStatusId, status: space.statuses.find((s) => s.id === targetStatusId)! };
     onTaskUpdate(updated);
 
-    await fetch(`/api/tasks/${task.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ statusId: targetStatusId }),
-    });
+    try {
+      const res = await fetch(`/api/tasks/${task.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statusId: targetStatusId }),
+      });
+      if (!res.ok) onTaskUpdate(task);
+    } catch {
+      onTaskUpdate(task);
+    }
   }
 
   return (

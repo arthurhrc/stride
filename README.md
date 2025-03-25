@@ -30,6 +30,8 @@ Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas me
 - **Múltiplos workspaces e espaços**
 - **Busca** de tarefas em tempo real
 - **Criação de espaços** com seletor de metodologia, ícone e cor
+- **Dark mode** com alternância manual e persistência via localStorage
+- **Layout responsivo** com drawer mobile e header compacto
 
 ## Stack
 
