@@ -28,7 +28,7 @@ export default function RegisterPage() {
     const data = await res.json();
     setLoading(false);
     if (!res.ok) { setError(data.error || "Erro ao criar conta"); return; }
-    router.push(`/app/${data.workspaceSlug}/${data.spaceId}`);
+    router.push(`/app/${data.workspaceSlug}/welcome`);
   }
 
   return (
