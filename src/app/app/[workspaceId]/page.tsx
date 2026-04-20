@@ -2,13 +2,20 @@ import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { LayoutGrid } from "lucide-react";
+import { AutoOpenCreate } from "@/components/sidebar/auto-open-create";
+import type { MethodologyType } from "@/types";
+
+const VALID_METHODOLOGIES: MethodologyType[] = ["kanban", "scrum", "okr", "canvas", "retro"];
 
 interface Props {
   params: Promise<{ workspaceId: string }>;
+  searchParams: Promise<{ openCreate?: string; methodology?: string }>;
 }
 
-export default async function WorkspaceHomePage({ params }: Props) {
+export default async function WorkspaceHomePage({ params, searchParams }: Props) {
   const { workspaceId } = await params;
+  const { openCreate, methodology } = await searchParams;
+  const shouldOpenCreate = openCreate === "true" && VALID_METHODOLOGIES.includes(methodology as MethodologyType);
   const session = await getSession();
   if (!session) redirect("/login");
 
@@ -41,6 +48,10 @@ export default async function WorkspaceHomePage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {shouldOpenCreate && (
+        <AutoOpenCreate workspaceSlug={workspaceId} methodology={methodology as MethodologyType} />
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {workspace.spaces.map((space) => (

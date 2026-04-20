@@ -9,6 +9,7 @@ import type { MethodologyType } from "@/types";
 interface Props {
   workspaceSlug: string;
   onClose: () => void;
+  initialMethodology?: MethodologyType;
 }
 
 const METHODOLOGIES: { type: MethodologyType; emoji: string; label: string; desc: string }[] = [
@@ -22,12 +23,12 @@ const METHODOLOGIES: { type: MethodologyType; emoji: string; label: string; desc
 const ICONS = ["📁", "🚀", "💡", "🛠️", "📊", "🎨", "⚙️", "📢", "🧪", "🏆", "🔥", "💎"];
 const COLORS = ["#6366f1", "#ec4899", "#f59e0b", "#22c55e", "#3b82f6", "#ef4444", "#8b5cf6", "#06b6d4", "#f97316", "#84cc16"];
 
-export function CreateSpaceDialog({ workspaceSlug, onClose }: Props) {
+export function CreateSpaceDialog({ workspaceSlug, onClose, initialMethodology }: Props) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [icon, setIcon] = useState("📁");
   const [color, setColor] = useState("#6366f1");
-  const [methodology, setMethodology] = useState<MethodologyType>("kanban");
+  const [methodology, setMethodology] = useState<MethodologyType>(initialMethodology ?? "kanban");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
