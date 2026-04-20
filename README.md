@@ -2,7 +2,7 @@
 
 > Work smarter, move faster.
 
-Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas metodologias ágeis, Kanban drag & drop, múltiplas vistas e colaboração em tempo real.
+Plataforma de gestão de projetos moderna com suporte a múltiplas metodologias ágeis, Kanban drag & drop, múltiplas vistas e colaboração em equipe.
 
 **Demo ao vivo:** [stride-agile.vercel.app](https://stride-agile.vercel.app)
 
@@ -19,7 +19,7 @@ Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas me
 ## Features
 
 - **Kanban board** com drag & drop entre colunas de status
-- **Vista de lista** com agrupamento por lista e collapse
+- **Vista de lista** com agrupamento e collapse
 - **Task detail** em painel lateral com edição inline
 - **Comentários** em cada tarefa
 - **Prioridades** (Urgente, Alta, Normal, Baixa)
@@ -29,19 +29,18 @@ Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas me
 - **Status customizáveis** por espaço
 - **Múltiplos workspaces e espaços**
 - **Busca** de tarefas em tempo real
-- **Criação de espaços** com seletor de metodologia, ícone e cor
-- **Dark mode** com alternância manual e persistência via localStorage
-- **Layout responsivo** com drawer mobile e header compacto
+- **Dark mode** com persistência via localStorage
+- **Layout responsivo** com drawer mobile
 
 ## Stack
 
 | Camada | Tecnologia |
 |---|---|
-| Frontend | Next.js 16 (App Router) + TypeScript |
+| Frontend | Next.js (App Router) + TypeScript |
 | UI | Tailwind CSS v4 + Radix UI |
 | Drag & Drop | @dnd-kit/core + @dnd-kit/sortable |
 | Backend | Next.js Route Handlers (REST API) |
-| Banco de dados | Prisma 7 + PostgreSQL (Neon) |
+| Banco de dados | Prisma + PostgreSQL (Neon) |
 | Auth | Sessões com cookies httpOnly |
 | Deploy | Vercel |
 
@@ -54,7 +53,6 @@ yarn install
 cp .env.example .env
 # Edite .env com sua DATABASE_URL e DIRECT_URL do Neon (neon.tech)
 yarn prisma generate
-node -e "require('pg').Client && console.log('pg ok')" # verifique conexão
 node_modules/.bin/tsx prisma/seed.ts
 yarn dev
 ```
