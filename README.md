@@ -2,7 +2,19 @@
 
 > Work smarter, move faster.
 
-Gestão de projetos moderna inspirada no ClickUp — com Kanban drag & drop, múltiplas vistas e colaboração em tempo real.
+Gestão de projetos moderna inspirada no ClickUp — com suporte a múltiplas metodologias ágeis, Kanban drag & drop, múltiplas vistas e colaboração em tempo real.
+
+**Demo ao vivo:** [stride-orpin-ten.vercel.app](https://stride-orpin-ten.vercel.app)
+
+## Metodologias suportadas
+
+| Metodologia | Descrição |
+|---|---|
+| 🗂️ **Kanban** | Quadro visual com drag & drop entre colunas de status |
+| 🏃 **Scrum** | Product backlog, sprints, board e burndown por story points |
+| 🎯 **OKR** | Objetivos com resultados-chave e barras de progresso |
+| 🧩 **Business Canvas** | 9 blocos do Business Model Canvas com sticky notes |
+| 🔄 **Retrospectiva** | Start/Stop/Continue com votação e exportação de ações |
 
 ## Features
 
@@ -11,11 +23,13 @@ Gestão de projetos moderna inspirada no ClickUp — com Kanban drag & drop, mú
 - **Task detail** em painel lateral com edição inline
 - **Comentários** em cada tarefa
 - **Prioridades** (Urgente, Alta, Normal, Baixa)
+- **Story points** no Scrum (calculado a partir da prioridade)
 - **Responsáveis** com avatares coloridos
 - **Prazos** com indicador visual de atraso
 - **Status customizáveis** por espaço
 - **Múltiplos workspaces e espaços**
 - **Busca** de tarefas em tempo real
+- **Criação de espaços** com seletor de metodologia, ícone e cor
 
 ## Stack
 
@@ -27,6 +41,7 @@ Gestão de projetos moderna inspirada no ClickUp — com Kanban drag & drop, mú
 | Backend | Next.js Route Handlers (REST API) |
 | Banco de dados | Prisma 7 + PostgreSQL (Neon) |
 | Auth | Sessões com cookies httpOnly |
+| Deploy | Vercel |
 
 ## Rodando localmente
 
@@ -35,22 +50,20 @@ git clone https://github.com/arthurhrc/stride.git
 cd stride
 yarn install
 cp .env.example .env
-# Edite .env com sua DATABASE_URL do Neon (neon.tech)
+# Edite .env com sua DATABASE_URL e DIRECT_URL do Neon (neon.tech)
 yarn prisma generate
-yarn prisma migrate dev --name init
-yarn tsx prisma/seed.ts
+node -e "require('pg').Client && console.log('pg ok')" # verifique conexão
+node_modules/.bin/tsx prisma/seed.ts
 yarn dev
 ```
 
-Acesse: [http://localhost:3000](http://localhost:3000)
+Acesse: <http://localhost:3000>
 
 ## Credenciais demo
 
 | Usuário | E-mail | Senha |
 |---|---|---|
 | Arthur Carvalho | arthur@demo.com | demo123 |
-| Barbara Lima | barbara@demo.com | demo123 |
-| William Santos | william@demo.com | demo123 |
 
 ---
 

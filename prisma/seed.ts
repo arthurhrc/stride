@@ -39,23 +39,13 @@ async function main() {
   const arthur = await prisma.user.create({
     data: { name: "Arthur Carvalho", email: "arthur@demo.com", password: hash, avatarColor: "#6366f1" },
   });
-  const barbara = await prisma.user.create({
-    data: { name: "Barbara Lima", email: "barbara@demo.com", password: hash, avatarColor: "#ec4899" },
-  });
-  const william = await prisma.user.create({
-    data: { name: "William Santos", email: "william@demo.com", password: hash, avatarColor: "#f59e0b" },
-  });
 
   const workspace = await prisma.workspace.create({
-    data: { name: "Stride Demo", slug: "stride-demo", color: "#6366f1" },
+    data: { name: "Portfólio", slug: "portfolio", color: "#6366f1" },
   });
 
-  await prisma.workspaceMember.createMany({
-    data: [
-      { userId: arthur.id, workspaceId: workspace.id, role: "owner" },
-      { userId: barbara.id, workspaceId: workspace.id, role: "member" },
-      { userId: william.id, workspaceId: workspace.id, role: "member" },
-    ],
+  await prisma.workspaceMember.create({
+    data: { userId: arthur.id, workspaceId: workspace.id, role: "owner" },
   });
 
   // ── Kanban: Design ────────────────────────────────────────────
@@ -68,10 +58,10 @@ async function main() {
   const dList = await prisma.taskList.create({ data: { name: "Backlog", order: 0, spaceId: designSpace.id } });
   const dList2 = await prisma.taskList.create({ data: { name: "Sprint 1", order: 1, spaceId: designSpace.id } });
   const designTasks = [
-    { title: "Criar wireframes das telas principais", priority: "high", statusId: dStatuses[1].id, assigneeId: barbara.id, order: 0 },
+    { title: "Criar wireframes das telas principais", priority: "high", statusId: dStatuses[1].id, assigneeId: arthur.id, order: 0 },
     { title: "Revisar paleta de cores", priority: "normal", statusId: dStatuses[0].id, assigneeId: arthur.id, order: 1 },
-    { title: "Aprovar identidade visual com o cliente", priority: "urgent", statusId: dStatuses[2].id, assigneeId: william.id, order: 2 },
-    { title: "Exportar assets para o time de dev", priority: "normal", statusId: dStatuses[3].id, assigneeId: barbara.id, order: 3 },
+    { title: "Aprovar identidade visual", priority: "urgent", statusId: dStatuses[2].id, assigneeId: arthur.id, order: 2 },
+    { title: "Exportar assets para o time de dev", priority: "normal", statusId: dStatuses[3].id, assigneeId: arthur.id, order: 3 },
     { title: "Documentar componentes do design system", priority: "low", statusId: dStatuses[0].id, assigneeId: arthur.id, order: 4 },
   ];
   for (const [i, t] of designTasks.entries()) {
@@ -79,8 +69,7 @@ async function main() {
       data: { ...t, listId: i < 3 ? dList2.id : dList.id, creatorId: arthur.id },
     });
     if (i === 0) {
-      await prisma.taskComment.create({ data: { content: "Preciso dos wireframes até sexta!", taskId: task.id, userId: william.id } });
-      await prisma.taskComment.create({ data: { content: "Já comecei, fica pronto em 2 dias.", taskId: task.id, userId: barbara.id } });
+      await prisma.taskComment.create({ data: { content: "Wireframes prioritários para a landing page e dashboard.", taskId: task.id, userId: arthur.id } });
     }
   }
 
@@ -101,16 +90,16 @@ async function main() {
   });
 
   const devTasks = [
-    { title: "Configurar autenticação com JWT", priority: "urgent", statusId: devStatuses[3].id, assigneeId: arthur.id, storyPoints: 8, sprintId: sprint1.id },
-    { title: "Implementar CRUD de tarefas", priority: "high", statusId: devStatuses[1].id, assigneeId: william.id, storyPoints: 13, sprintId: sprint1.id },
-    { title: "Setup do banco de dados PostgreSQL", priority: "high", statusId: devStatuses[3].id, assigneeId: arthur.id, storyPoints: 5, sprintId: sprint1.id },
-    { title: "Criar componentes de UI base", priority: "normal", statusId: devStatuses[2].id, assigneeId: barbara.id, storyPoints: 8, sprintId: sprint1.id },
-    { title: "Testes unitários das rotas de API", priority: "normal", statusId: devStatuses[0].id, assigneeId: william.id, storyPoints: 5 },
-    { title: "Deploy na Vercel", priority: "high", statusId: devStatuses[0].id, assigneeId: arthur.id, storyPoints: 3 },
-    { title: "Documentação da API", priority: "low", statusId: devStatuses[0].id, assigneeId: barbara.id, storyPoints: 2 },
+    { title: "Configurar autenticação com JWT", priority: "urgent", statusId: devStatuses[3].id, storyPoints: 8, sprintId: sprint1.id },
+    { title: "Implementar CRUD de tarefas", priority: "high", statusId: devStatuses[1].id, storyPoints: 13, sprintId: sprint1.id },
+    { title: "Setup do banco de dados PostgreSQL", priority: "high", statusId: devStatuses[3].id, storyPoints: 5, sprintId: sprint1.id },
+    { title: "Criar componentes de UI base", priority: "normal", statusId: devStatuses[2].id, storyPoints: 8, sprintId: sprint1.id },
+    { title: "Testes unitários das rotas de API", priority: "normal", statusId: devStatuses[0].id, storyPoints: 5 },
+    { title: "Deploy na Vercel", priority: "high", statusId: devStatuses[3].id, storyPoints: 3 },
+    { title: "Documentação da API", priority: "low", statusId: devStatuses[0].id, storyPoints: 2 },
   ];
-  for (const t of devTasks) {
-    await prisma.task.create({ data: { ...t, listId: devList.id, creatorId: arthur.id, order: 0 } });
+  for (const [i, t] of devTasks.entries()) {
+    await prisma.task.create({ data: { ...t, listId: devList.id, creatorId: arthur.id, assigneeId: arthur.id, order: i } });
   }
 
   // ── OKR: Marketing ───────────────────────────────────────────
@@ -121,7 +110,7 @@ async function main() {
   await prisma.taskList.create({ data: { name: "Backlog", order: 0, spaceId: mktSpace.id } });
 
   const obj1 = await prisma.objective.create({
-    data: { title: "Aumentar presença de marca", status: "on_track", ownerId: barbara.id, order: 0, spaceId: mktSpace.id },
+    data: { title: "Aumentar presença de marca", status: "on_track", ownerId: arthur.id, order: 0, spaceId: mktSpace.id },
   });
   await prisma.keyResult.createMany({
     data: [
@@ -132,7 +121,7 @@ async function main() {
   });
 
   const obj2 = await prisma.objective.create({
-    data: { title: "Gerar 50 leads qualificados", status: "at_risk", ownerId: william.id, order: 1, spaceId: mktSpace.id },
+    data: { title: "Gerar 50 leads qualificados", status: "at_risk", ownerId: arthur.id, order: 1, spaceId: mktSpace.id },
   });
   await prisma.keyResult.createMany({
     data: [
@@ -149,12 +138,12 @@ async function main() {
   await prisma.taskList.create({ data: { name: "Backlog", order: 0, spaceId: productSpace.id } });
 
   const canvasData = [
-    { block: "value_prop", content: "Gestão ágil de projetos intuitiva e acessível para times modernos" },
-    { block: "value_prop", content: "Múltiplas metodologias em uma única plataforma" },
+    { block: "value_prop", content: "Gestão ágil de projetos intuitiva para times modernos" },
+    { block: "value_prop", content: "5 metodologias em uma única plataforma" },
     { block: "customer_segments", content: "Startups e scale-ups (5-50 pessoas)" },
     { block: "customer_segments", content: "Times de produto e tecnologia" },
     { block: "channels", content: "Marketing de conteúdo e SEO" },
-    { block: "channels", content: "Indicações e word of mouth" },
+    { block: "channels", content: "Word of mouth" },
     { block: "customer_relations", content: "Onboarding guiado" },
     { block: "customer_relations", content: "Suporte via chat" },
     { block: "revenue", content: "Assinatura mensal por usuário (SaaS)" },
@@ -162,7 +151,7 @@ async function main() {
     { block: "key_resources", content: "Time de engenharia" },
     { block: "key_activities", content: "Desenvolvimento de produto" },
     { block: "key_activities", content: "Aquisição de clientes" },
-    { block: "key_partners", content: "Provedores de infraestrutura (Neon, Vercel)" },
+    { block: "key_partners", content: "Neon, Vercel, Radix UI" },
     { block: "cost_structure", content: "Salários da equipe" },
     { block: "cost_structure", content: "Infraestrutura de cloud" },
   ];
@@ -179,22 +168,20 @@ async function main() {
   await prisma.taskList.create({ data: { name: "Backlog", order: 0, spaceId: opsSpace.id } });
 
   const retroData = [
-    { content: "Fazer pair programming com mais frequência", column: "start", votes: 4, authorId: arthur.id },
-    { content: "Code reviews mais detalhados nos PRs", column: "start", votes: 2, authorId: barbara.id },
-    { content: "Reuniões de status diárias de 30+ minutos", column: "stop", votes: 5, authorId: william.id },
-    { content: "Mexer em código sem criar uma branch", column: "stop", votes: 3, authorId: arthur.id },
-    { content: "Retrospectivas quinzenais — estão funcionando!", column: "continue", votes: 6, authorId: barbara.id },
-    { content: "Documentar decisões técnicas no Notion", column: "continue", votes: 3, authorId: william.id },
-    { content: "Daily async via Slack às 9h", column: "continue", votes: 2, authorId: arthur.id },
+    { content: "Fazer pair programming com mais frequência", column: "start", votes: 4 },
+    { content: "Code reviews mais detalhados nos PRs", column: "start", votes: 2 },
+    { content: "Reuniões de status diárias longas demais", column: "stop", votes: 5 },
+    { content: "Mexer em código sem criar uma branch", column: "stop", votes: 3 },
+    { content: "Retrospectivas quinzenais — funcionando!", column: "continue", votes: 6 },
+    { content: "Documentar decisões técnicas no README", column: "continue", votes: 3 },
+    { content: "Daily async via Slack às 9h", column: "continue", votes: 2 },
   ];
   for (const [i, r] of retroData.entries()) {
-    await prisma.retroCard.create({ data: { ...r, order: i, spaceId: opsSpace.id } });
+    await prisma.retroCard.create({ data: { ...r, order: i, authorId: arthur.id, spaceId: opsSpace.id } });
   }
 
   console.log("✅ Seed concluído!");
   console.log("📧 arthur@demo.com / demo123");
-  console.log("📧 barbara@demo.com / demo123");
-  console.log("📧 william@demo.com / demo123");
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());
